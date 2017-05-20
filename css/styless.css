@@ -10,6 +10,11 @@ img{
     margin: auto;
     width: 85%;
 
+    border-top: 3px solid maroon;
+    border-bottom: 10px solid maroon;
+    box-shadow: 0 0px 30px maroon;
+
+
     background-color: #004e00;
     padding: 30px 0px;
 
@@ -28,15 +33,16 @@ img{
 
 
 
-.card {
-    height: 120px;
+.card{
+    height: 100px;
 
     margin: 10px;
     border: silver 0px ridge;
     width: 12.6%;
 
     float: left;
-    transform: rotate(-1deg);
+    transition: all 0.75s ease;
+
 }
 
 .container{
@@ -128,4 +134,39 @@ body{
 
 .reset-button{
     display: none;
+}
+
+.player-cards .card-1{
+    transform: rotate(8deg) translate(-18px, 166px);
+}
+
+.player-cards .card-2{
+    transform: rotate(-3deg) translate(32px, 158px);
+
+}
+
+.player-cards .card-3{
+    transform: rotate(-8deg) rotateX(360deg) translate(94px, 175px);
+
+}
+.player-cards .card-4{
+    transform: rotate(3deg) rotateX(360deg) translate(211px, 143px);
+
+}
+
+.player-cards .card-5{
+    transform: rotate(13deg) rotateX(360deg) translate(296px, 97px);
+
+}
+
+.dealer-cards{
+    float: right;
+}
+
+.deck{
+    position: absolute;
+    display: inline;
+    top: -180px;
+    left: 160px;
+    transform: rotate(180deg);
 }

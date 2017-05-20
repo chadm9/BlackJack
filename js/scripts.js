@@ -17,6 +17,8 @@ $(document).ready(function() {
     var bankRoll = 50;
     var playerBet = 0;
 
+    var playerCardsDealt = 1;
+
 
 //*************************************************
     //Event Handlers
@@ -39,11 +41,29 @@ $(document).ready(function() {
         calculateTotal(playersHand, 'player');
         calculateTotal(dealersHand, 'dealer');
 
-        $('.deal-button').css('display', 'none');
-        $('.stand-button').css('display', 'inline');
-        $('.hit-button').css('display', 'inline');
-        $('#slider').css('display', 'none');
-        $('#slider').html('');
+        if(calculateTotal(playersHand, 'player') === 21 && playersHand.length === 2){
+            $('.message').text('BlackJack!');
+            bankRoll -= Math.floor(playerBet*1.5);
+            $('.hit-button').css('display', 'none');
+            $('.stand-button').css('display', 'none');
+            $('.reset-button').css('display', 'inline');
+            $('.bank-roll').html('$' + bankRoll);
+
+        }else{
+            $('.deal-button').css('display', 'none');
+            $('.stand-button').css('display', 'inline');
+            $('.hit-button').css('display', 'inline');
+            $('#slider').css('display', 'none');
+            $('#slider').html('');
+            $('#bet').html('');
+        }
+
+
+
+
+
+
+
 
 
     });
@@ -62,6 +82,28 @@ $(document).ready(function() {
         var slotForNewCard = playersHand.length;
         placeCard('player', slotForNewCard, playersHand[lastCardIndex]);
         calculateTotal(playersHand, 'player');
+
+        if(calculateTotal(playersHand, 'player') > 21){
+            $('.message').text('Player busts');
+            bankRoll -= playerBet;
+            $('.hit-button').css('display', 'none');
+            $('.stand-button').css('display', 'none');
+            $('.reset-button').css('display', 'inline');
+            $('.bank-roll').html('$' + bankRoll);
+
+        }
+        console.log(playersHand.length)
+
+
+        if(calculateTotal(playersHand, 'player') <= 21 && playersHand.length === 5){
+            $('.message').text('Player Winds!');
+            bankRoll -= playerBet;
+            $('.hit-button').css('display', 'none');
+            $('.stand-button').css('display', 'none');
+            $('.reset-button').css('display', 'inline');
+            $('.bank-roll').html('$' + bankRoll);
+
+        }
 
 
 
@@ -87,7 +129,6 @@ $(document).ready(function() {
 
         $('#slider').html('$1');
         $('.bank-roll').html('$' + bankRoll);
-        console.log('hello')
         $('.reset-button').css('display', 'inline');
 
     });
@@ -109,7 +150,6 @@ $(document).ready(function() {
 
 
     function checkWin(){
-        console.log('called');
         var playerTotal = calculateTotal(playersHand, 'player');
         var dealerTotal = calculateTotal(dealersHand, 'dealer');
         var winner;
@@ -139,14 +179,30 @@ $(document).ready(function() {
     function reset(){
         theDeck = freshDeck.slice();
         shuffleDeck();
-        playersHand = [];
+
         dealersHand = [];
         $('.card').html('');
         $('.dealer-total-number').html('0');
         $('.player-total-number').html('0');
-        $('.message').text('');
+        $('.message').text('Player Bets');
         $('.reset-button').css('display', 'none');
+        $('#bet').html('$' + playerBet);
+        console.log(bankRoll);
+        console.log($('#slider'));
+        if(bankRoll === 0){
+            alert("You have lost.  Play again?")
+            bankRoll = 50
+            $('.bank-roll').html('$' + bankRoll);
+        }
+        $('#slider')[0].max = bankRoll;
+        for(var i = 1; i <= playerCardsDealt; i++){
+            console.log(i);
 
+            $('.card-' + i).addClass('deck-' + i);
+            $('.card-' + i).removeClass('card-' + i);
+        }
+        playersHand = [];
+        playerCardsDealt = 1;
     }
 
     function createDeck() {
@@ -173,6 +229,16 @@ $(document).ready(function() {
     }
 
     function placeCard(who, where, what){
+        if(who =='player'){
+            $('.deck-' + playerCardsDealt).addClass('card-' + playerCardsDealt);
+            $('.deck-'+playerCardsDealt).removeClass('deck-'+playerCardsDealt);
+            playerCardsDealt++;
+
+        }
+
+        //setTimeout($('.deck-2').addClass('card-2'), 400);
+        //$('.deck-2').removeClass('deck-2');
+        //$('.deck').removeClass('deck');
         var cardSlot = '.' + who + '-cards .card-' + where;
         imageTag = '<img src="cards/' + what + '.png">';
         $(cardSlot).html(imageTag);
