@@ -41,14 +41,25 @@ $(document).ready(function() {
         calculateTotal(playersHand, 'player');
         calculateTotal(dealersHand, 'dealer');
 
-        if(calculateTotal(playersHand, 'player') === 21 && playersHand.length === 2){
-            $('.message').text('BlackJack!');
-            bankRoll -= Math.floor(playerBet*1.5);
+        if(calculateTotal(playersHand, 'player') === 21){
+            $('.message').text('BlackJack! Player wins!');
+            bankRoll += Math.floor(playerBet*1.5);
             $('.hit-button').css('display', 'none');
+            $('#slider').css('display', 'none');
+            $('.deal-button').css('display', 'none');
             $('.stand-button').css('display', 'none');
             $('.reset-button').css('display', 'inline');
             $('.bank-roll').html('$' + bankRoll);
 
+        }else if(calculateTotal(dealersHand, 'dealer') === 21) {
+            $('.message').text('BlackJack, dealer wins.');
+            bankRoll -= playerBet;
+            $('.hit-button').css('display', 'none');
+            $('#slider').css('display', 'none');
+            $('.deal-button').css('display', 'none');
+            $('.stand-button').css('display', 'none');
+            $('.reset-button').css('display', 'inline');
+            $('.bank-roll').html('$' + bankRoll);
         }else{
             $('.deal-button').css('display', 'none');
             $('.stand-button').css('display', 'inline');
@@ -58,7 +69,7 @@ $(document).ready(function() {
             $('#bet').html('');
         }
 
-
+        console.log(dealersHand);
 
 
 
@@ -92,7 +103,6 @@ $(document).ready(function() {
             $('.bank-roll').html('$' + bankRoll);
 
         }
-        console.log(playersHand.length)
 
 
         if(calculateTotal(playersHand, 'player') <= 21 && playersHand.length === 5){
@@ -127,10 +137,11 @@ $(document).ready(function() {
         $('.stand-button').css('display', 'none');
         $('.hit-button').css('display', 'none');
 
-        $('#slider').html('$1');
+        $('#slider').html('$2');
         $('.bank-roll').html('$' + bankRoll);
         $('.reset-button').css('display', 'inline');
 
+        console.log(dealersHand);
     });
 
 
@@ -198,8 +209,8 @@ $(document).ready(function() {
         for(var i = 1; i <= playerCardsDealt; i++){
             console.log(i);
 
-            $('.card-' + i).addClass('deck-' + i);
-            $('.card-' + i).removeClass('card-' + i);
+            $('.deck.card-' + i).addClass('deck-' + i);
+            $('.deck.card-' + i).removeClass('card-' + i);
         }
         playersHand = [];
         playerCardsDealt = 1;

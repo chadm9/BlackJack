@@ -45,6 +45,18 @@ img{
 
 }
 
+.peck{
+    height: 100px;
+
+    margin: 10px;
+    border: silver 0px ridge;
+    width: 12.6%;
+
+    float: left;
+    transition: all 0.75s ease;
+
+}
+
 .container{
     perspective: 600px;
 }
