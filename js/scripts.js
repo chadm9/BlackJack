@@ -15,7 +15,7 @@ $(document).ready(function() {
     //var theDeck = freshDeck.slice();
     var theDeck = freshDeck.slice();
     var bankRoll = 50;
-    var playerBet = 0;
+    var playerBet = 2;
 
     var playerCardsDealt = 1;
 
@@ -68,13 +68,6 @@ $(document).ready(function() {
             $('#slider').html('');
             $('#bet').html('');
         }
-
-        console.log(dealersHand);
-
-
-
-
-
 
 
     });
@@ -183,37 +176,35 @@ $(document).ready(function() {
             }
         }
         $('.bank-roll').html(bankRoll);
-        console.log(bankRoll);
         $('.message').text(winner);
     }
 
     function reset(){
         theDeck = freshDeck.slice();
         shuffleDeck();
-
+        playerBet = 2;
         dealersHand = [];
         $('.card').html('');
         $('.dealer-total-number').html('0');
         $('.player-total-number').html('0');
         $('.message').text('Player Bets');
         $('.reset-button').css('display', 'none');
-        $('#bet').html('$' + playerBet);
-        console.log(bankRoll);
-        console.log($('#slider'));
         if(bankRoll === 0){
             alert("You have lost.  Play again?")
             bankRoll = 50
             $('.bank-roll').html('$' + bankRoll);
         }
         $('#slider')[0].max = bankRoll;
+        $('#slider')[0].value = 2;
+        $('#bet').html("$2");
+        $('.current-bet').html('$2');
         for(var i = 1; i <= playerCardsDealt; i++){
-            console.log(i);
-
             $('.deck.card-' + i).addClass('deck-' + i);
             $('.deck.card-' + i).removeClass('card-' + i);
         }
         playersHand = [];
         playerCardsDealt = 1;
+        console.log(bankRoll);
     }
 
     function createDeck() {
